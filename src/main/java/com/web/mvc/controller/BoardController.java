@@ -20,6 +20,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+/*
+여기에 도달하기 전에 jwt 필터에서 검증을 하기 때문에
+요청이 여기까지 도달했다는 것은 jwt 인증을 받았다는거다
+ */
 @RequiredArgsConstructor
 @RestController
 @Slf4j
@@ -89,6 +93,21 @@ public class BoardController {
 	 */
 	@PutMapping("/boards/{id}")
 	public ResponseEntity<?> update(@PathVariable Long id,@RequestBody BoardReq board){
+		System.out.println("id = " + id);
+		Board updatedBoard = boardService.updateBoard(id, board);
+		System.out.println("updatedBoard = " + updatedBoard);
+
+		BoardRes br = BoardRes.builder()
+				.title(updatedBoard.getTitle())
+				.regDate(updatedBoard.getRegDate().toString())
+				.content(updatedBoard.getContent())
+				.id(updatedBoard.getId()).build();
+		return new ResponseEntity<>(br,HttpStatus.OK);
+	}
+
+	//patch 써서 수정
+	@PatchMapping("/boards/{id}")
+	public ResponseEntity<?> update2(@PathVariable Long id,@RequestBody BoardReq board){
 		System.out.println("id = " + id);
 		Board updatedBoard = boardService.updateBoard(id, board);
 		System.out.println("updatedBoard = " + updatedBoard);

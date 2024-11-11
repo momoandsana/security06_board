@@ -63,7 +63,7 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/test", "/members", "/members/**", "/boards").permitAll()
-                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/admin").hasRole("ADMIN")// /admin 요청을 하기 위해서는 ADMIN 권한을 가지고 있어야 한다
                 .anyRequest().authenticated());
 
         //필터 추가 LoginFilter()는 인자를 받음 (AuthenticationManager() 메소드에 authenticationConfiguration 객체를넣어야 함)
